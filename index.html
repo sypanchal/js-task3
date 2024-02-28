@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Student Registration | jQuery</title>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="./style.css" />
+
+    <!-- jQuery -->
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+      integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+
+    <!-- Data Table -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.datatables.net/2.0.0/css/dataTables.jqueryui.min.css"
+    />
+    <script src="https://cdn.datatables.net/2.0.0/js/dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/2.0.0/js/dataTables.jqueryui.min.js"></script>
+
+    <!-- Iconify -->
+    <script src="https://code.iconify.design/iconify-icon/2.0.0/iconify-icon.min.js"></script>
+  </head>
+  <body>
+    <h1 class="heading">Student Registrations Detail</h1>
+
+    <div class="top--buttons">
+      <div class="btn btn--add_student">
+        <div class="add_student-title">Add New Student</div>
+        <iconify-icon
+          class="icon icon--add_student"
+          icon="carbon:add-filled"
+        ></iconify-icon>
+      </div>
+
+      <div class="btn btn--delete_all">
+        <div class="add_student-title">Delete all Students</div>
+        <iconify-icon
+          class="icon icon--delete_all"
+          icon="fluent:people-team-delete-20-filled"
+        ></iconify-icon>
+      </div>
+    </div>
+
+    <div class="modal__view add--student hidden">
+      <div class="modal__content">
+        <h1 class="heading">Student Registration</h1>
+
+        <div class="icon close__modal">
+          <iconify-icon icon="carbon:close-outline"></iconify-icon>
+        </div>
+
+        <form method="post" id="student-registration-form">
+          <table class="table">
+            <!-- Row 1 start -->
+            <tr>
+              <th colspan="2"><label for="firstName">First Name</label></th>
+
+              <th colspan="2"><label for="lastName">Last Name</label></th>
+
+              <th colspan="2"><label for="dob">Date of Birth</label></th>
+            </tr>
+
+            <tr>
+              <td colspan="2">
+                <input
+                  type="text"
+                  id="firstName"
+                  name="firstName"
+                  pattern="^[a-zA-Z]{3,20}$"
+                  required
+                />
+              </td>
+
+              <td colspan="2">
+                <input type="text" id="lastName" name="lastName" />
+              </td>
+
+              <td colspan="2">
+                <input type="date" id="dob" name="dob" required />
+              </td>
+            </tr>
+            <!-- Row 1 end -->
+
+            <!-- Row 2 start -->
+            <tr>
+              <th colspan="2"><label for="email">Email</label></th>
+
+              <th colspan="2"><label for="address">Address</label></th>
+
+              <th colspan="2">
+                <label for="graduationYear">Graduation Year</label>
+              </th>
+            </tr>
+
+            <tr>
+              <td colspan="2">
+                <input type="email" id="email" name="email" required />
+              </td>
+
+              <td colspan="2">
+                <input type="text" id="address" name="address" required />
+              </td>
+
+              <td colspan="2">
+                <input
+                  type="month"
+                  id="graduationYear"
+                  name="graduationYear"
+                  required
+                />
+              </td>
+            </tr>
+            <!-- Row 2 end -->
+
+            <!-- Education details start -->
+            <tr class="education--details">
+              <th class="education--title" colspan="6">Education</th>
+
+              <th class="icon add-icon" colspan="1">
+                <iconify-icon icon="carbon:add-filled"></iconify-icon>
+              </th>
+            </tr>
+
+            <tr>
+              <th><label for="degree">Degree/Board</label></th>
+              <th><label for="school">School/College</label></th>
+              <th><label for="startDate">Start Date</label></th>
+              <th><label for="passoutYear">Passout Year</label></th>
+              <th><label for="percentage">Percentage</label></th>
+              <th><label for="backlog">Backlog</label></th>
+            </tr>
+
+            <tr>
+              <td>
+                <input type="text" id="degree-1" name="degree-1" required />
+              </td>
+              <td>
+                <input type="text" id="school-1" name="school-1" required />
+              </td>
+              <td>
+                <input
+                  type="month"
+                  id="startDate-1"
+                  name="startDate-1"
+                  required
+                />
+              </td>
+              <td>
+                <input
+                  type="month"
+                  id="passoutYear-1"
+                  name="passoutYear-1"
+                  required
+                />
+              </td>
+              <td>
+                <input
+                  type="number"
+                  id="percentage-1"
+                  name="percentage-1"
+                  max="100"
+                  min="0"
+                  step="0.01"
+                  placeholder="Don't use % sign"
+                  required
+                />
+              </td>
+              <td>
+                <input
+                  type="number"
+                  id="backlog-1"
+                  name="backlog-1"
+                  placeholder="If any enter number"
+                  required
+                  min="0"
+                />
+              </td>
+            </tr>
+
+            <tr>
+              <td>
+                <input type="text" id="degree-2" name="degree-2" required />
+              </td>
+              <td>
+                <input type="text" id="school-2" name="school-2" required />
+              </td>
+              <td>
+                <input
+                  type="month"
+                  id="startDate-2"
+                  name="startDate-2"
+                  required
+                />
+              </td>
+              <td>
+                <input
+                  type="month"
+                  id="passoutYear-2"
+                  name="passoutYear-2"
+                  required
+                />
+              </td>
+              <td>
+                <input
+                  type="number"
+                  id="percentage-2"
+                  name="percentage-2"
+                  max="100"
+                  min="0"
+                  step="0.01"
+                  placeholder="Don't use % sign"
+                  required
+                />
+              </td>
+              <td>
+                <input
+                  type="number"
+                  min="0"
+                  id="backlog-2"
+                  name="backlog-2"
+                  placeholder="If any enter number"
+                  required
+                />
+              </td>
+            </tr>
+            <!-- Education details end -->
+
+            <!-- Submit Form -->
+            <tr class="dynamic">
+              <td></td>
+              <td></td>
+              <td></td>
+              <td class="submit-cell">
+                <button type="submit" value="submit" class="btn btn--submit">
+                  Submit
+                </button>
+              </td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+          </table>
+        </form>
+      </div>
+    </div>
+
+    <!-- Data Table -->
+    <table
+      id="myTable"
+      class="display"
+      data-order='[[ 1, "asc" ]]'
+      data-page-length="10"
+    >
+      <thead>
+        <tr>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Date of Birth</th>
+          <th>Email</th>
+          <th>Address</th>
+          <th>Graduation Year</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody class="table-rows"></tbody>
+    </table>
+
+    <script>
+      $(document).ready(function () {
+        // Open Registration Form
+        $(".btn--add_student").click(function () {
+          $(".add--student").removeClass("hidden");
+        });
+
+        // Close Registration Form
+        $(".close__modal").click(function () {
+          $(".add--student").addClass("hidden");
+          location.reload();
+        });
+
+        ////////////////////////////////////////////////////
+        // Helper Functions
+
+        const buildJSONFormData = (form) => {
+          let jsonFormData = {};
+
+          $(form)
+            .find(
+              "input[name='firstName'], input[name='lastName'], input[name='dob'], input[name='email'], input[name='address'], input[name='graduationYear']"
+            )
+            .each(function () {
+              jsonFormData[$(this).attr("name")] = $(this).val();
+            });
+
+          return jsonFormData;
+        };
+
+        const dobString = (dobDate) => {
+          const date = new Date(dobDate);
+
+          let day = date.getDate();
+          let month = date.getMonth() + 1;
+          let year = date.getFullYear();
+
+          day = day < 10 ? "0" + day : day;
+          month = month < 10 ? "0" + month : month;
+
+          return `${day}/${month}/${year}`;
+        };
+
+        const gradString = (gardDate) => {
+          const months = [
+            "January",
+            "February",
+            "March",
+            "April",
+            "May",
+            "June",
+            "July",
+            "August",
+            "September",
+            "October",
+            "November",
+            "December",
+          ];
+
+          const date = new Date(gardDate);
+          const month = months[date.getMonth()];
+          const year = date.getFullYear();
+
+          return `${month} ${year}`;
+        };
+
+        const getFullDate = (date, year) => {
+          const currentDate = date;
+
+          return new Date(
+            currentDate.getFullYear() + year,
+            currentDate.getMonth(),
+            currentDate.getDate() + 1
+          )
+            .toISOString()
+            .split("T")[0];
+        };
+
+        const getYearMonth = (date, year, month = 11) => {
+          const currentDate = date;
+          let maxGradYear = new Date();
+
+          maxGradYear.setFullYear(currentDate.getFullYear() + year);
+          maxGradYear.setMonth(month);
+
+          return maxGradYear.toISOString().slice(0, 7);
+        };
+
+        // Helper Functions End
+        ////////////////////////////////////////////////////
+
+        ////////////////////////////////////////////////////
+        // Validations
+
+        // 1. DOB
+        // Calculate the minimum Birthdate date allowed (18 years ago from today)
+        $("#dob").attr("max", getFullDate(new Date(), -18));
+
+        // On DOB change event
+        $("#dob").change(function () {
+          const dob = $(this).val();
+
+          // 2. Graduation Year
+          $("#graduationYear").attr({
+            min: getYearMonth(new Date(dob), 16),
+            max: getYearMonth(new Date(), 5),
+          });
+
+          // 3. Start Date
+          $('input[id^="startDate"]').each(function () {
+            $(this).attr({
+              min: getYearMonth(new Date(dob), 0, 0),
+              max: getYearMonth(new Date(), 5),
+            });
+          });
+        });
+
+        // 4. Passout Year
+        const setMinPassoutYear = (e) => {
+          $(e)
+            .closest("tr")
+            .find('[id^="passoutYear"]')
+            .attr({
+              min: getYearMonth(new Date($(e).val()), 1, 0),
+              max: getYearMonth(new Date(), 5),
+            });
+        };
+
+        $('input[id^="startDate"]').change(function () {
+          setMinPassoutYear(this);
+        });
+
+        // 5. Percentage and Backlog
+        const onNegativeInputChange = (e) => {
+          // Convert the input value to a number
+          let val = parseFloat($(e).val());
+
+          // Check if the value is negative zero
+          if (Object.is(val, -0) || Object.is(val, +0)) {
+            // Reset the input value to 0
+            $(e).val("0");
+          }
+        };
+
+        $('input[id^="percentage"]').on("input", function () {
+          onNegativeInputChange(this);
+        });
+        $('input[id^="backlog"]').on("input", function () {
+          onNegativeInputChange(this);
+        });
+
+        // 6. Email
+        const validateEmail = (e) => {
+          const email = e.value;
+          const emailPattern = /^[a-z0-9._-]+@[a-z0-9.-]+\.[a-z]{2,5}$/;
+
+          if (!emailPattern.test(email)) {
+            alert("Invalid email address. Please enter a valid email.");
+          }
+        };
+        $("#email").change(function () {
+          validateEmail(this);
+        });
+
+        // Validations End
+        ////////////////////////////////////////////////////
+
+        const form = $("#student-registration-form");
+        const btnSubmitForm = $(".btn--submit");
+
+        let count = 3;
+        let ed_row = 2;
+
+        // Create New Education Row
+        const addNewEducation = () => {
+          if ($("#dob").val() === "") {
+            alert("Enter student details first...");
+            return;
+          }
+
+          const html = `
+            <tr>
+                <td>
+                    <input type="text" id="degree-${count}" name="degree-${count}"  required/>
+                </td>
+                <td>
+                    <input type="text" id="school-${count}" name="school-${count}" required />
+                </td>
+                <td>
+                    <input
+                        type="month"
+                        id="startDate-${count}"
+                        name="startDate-${count}"
+                        min="${getYearMonth(new Date($("#dob").val()), 0)}"
+                        max="${getYearMonth(new Date(), 5)}"
+                        required
+                    />
+                </td>
+                <td>
+                    <input
+                        type="month"
+                        id="passoutYear-${count}"
+                        name="passoutYear-${count}"
+                        max="${getYearMonth(new Date(), 5)}"
+                        required
+                    />
+                </td>
+                <td>
+                    <input
+                        type="number"
+                        id="percentage-${count}"
+                        name="percentage-${count}"
+                        max="100"
+                        min="0"
+                        step="0.01"
+                        placeholder="Don't use % sign"
+                        required
+                    />
+                </td>
+                <td>
+                    <input
+                        type="number"
+                        min="0"
+                        id="backlog-${count}"
+                        name="backlog-${count}"
+                        placeholder="If any enter number"
+                        required
+                    />
+                </td>
+                <td>
+                    <div class="icon remove-icon">
+                        <iconify-icon icon="ep:remove-filled"></iconify-icon>
+                    </div>
+                </td>
+            </tr>
+        `;
+
+          $(".dynamic").before(html);
+          count++;
+          ed_row++;
+
+          // Remove Education Raw
+          $(".remove-icon").click(function () {
+            removeEducation(this);
+          });
+
+          // Passout Year
+          $('input[id^="startDate"]').change(function () {
+            setMinPassoutYear(this);
+          });
+
+          // Percentage
+          $('input[id^="percentage"]').on("input", function () {
+            onNegativeInputChange(this);
+          });
+
+          // Backlog
+          $('input[id^="backlog"]').on("input", function () {
+            onNegativeInputChange(this);
+          });
+        };
+
+        $(".add-icon").click(function () {
+          addNewEducation();
+        });
+
+        // Delete Education Row
+        const removeEducation = (e) => {
+          e.closest("tr").remove();
+          ed_row--;
+        };
+
+        // Append new row to the display student table
+        let displayRowID = 0;
+        const addRowtoDisplay = (formData) => {
+          formData.forEach((item) => {
+            let tr = $("<tr></tr>");
+
+            Object.keys(item).forEach((key) => {
+              if (key === "dob") {
+                let td = $("<td></td>").text(dobString(item[key]));
+                tr.append(td);
+              } else if (key === "graduationYear") {
+                let td = $("<td></td>").text(gradString(item[key]));
+                tr.append(td);
+              } else if (key !== "educationData" && key !== "studentID") {
+                let td = $("<td></td>").text(item[key]);
+                tr.append(td);
+              }
+            });
+
+            const tdForActions = $("<td></td>").addClass("actions");
+
+            tdForActions.html(
+              `
+                <div class="icon edit-icon">
+                  <iconify-icon icon="f7:pencil-circle-fill"></iconify-icon>
+                </div>
+
+                <div class="icon delete-icon">
+                  <iconify-icon icon="icon-park-solid:delete-four"></iconify-icon>
+                </div>
+              `
+            );
+
+            tr.append(tdForActions);
+            tr.attr("id", displayRowID);
+            $(".table-rows").append(tr);
+
+            displayRowID++;
+
+            $(".edit-icon").click(function () {
+              editStudentDetail(this);
+            });
+
+            $(".delete-icon").click(function () {
+              deleteStudentDetail(this);
+            });
+
+            // Initializing Data Table
+            $("#myTable").DataTable({
+              searching: false,
+            });
+          });
+        };
+
+        let formData =
+          JSON.parse(localStorage.getItem("formData")) === null
+            ? []
+            : JSON.parse(localStorage.getItem("formData"));
+
+        // Submit Form Data
+        form.on("submit", function (e) {
+          e.preventDefault();
+          $(".add--student").addClass("hidden");
+
+          const data = buildJSONFormData(form);
+
+          let personEducationData = [];
+          let educationData = [];
+
+          for (let i = 1; i < count; i++) {
+            let rowData = {
+              degree: $(`#degree-${i}`).val(),
+              school: $(`#school-${i}`).val(),
+              startDate: $(`#startDate-${i}`).val(),
+              passoutYear: $(`#passoutYear-${i}`).val(),
+              percentage: $(`#percentage-${i}`).val(),
+              backlog: $(`#backlog-${i}`).val(),
+            };
+
+            if (rowData.degree != "") {
+              personEducationData.push(rowData);
+            }
+          }
+
+          educationData.push(personEducationData);
+          data.educationData = educationData;
+          data.studentID = displayRowID;
+
+          formData.push(data);
+
+          addRowtoDisplay([data]);
+          createStudent(formData);
+        });
+
+        ////////////////////////////////////////////////////
+        // CRUD
+
+        // Create Student
+        const createStudent = (formData) => {
+          localStorage.setItem("formData", JSON.stringify(formData));
+          location.reload(true);
+        };
+
+        // Delete student
+        const deleteStudentDetail = (e) => {
+          const deleteStudentID = +e.closest("tr").id;
+
+          formData.splice(
+            formData.findIndex((s) => s.studentID === deleteStudentID),
+            1
+          );
+
+          createStudent(formData);
+        };
+
+        // Update student
+        const editStudentDetail = (event) => {
+          $(".add--student").removeClass("hidden");
+
+          const updateStudentID = +$(event).closest("tr").attr("id");
+          const oldDetails = formData[updateStudentID];
+
+          for (let key in oldDetails) {
+            if (key !== "educationData" && key !== "studentID") {
+              $(`#${key}`).val(oldDetails[key]);
+            } else if (key === "educationData") {
+              for (let i = 0; i < oldDetails[key][0].length; i++) {
+                if (count <= oldDetails[key][0].length) {
+                  addNewEducation();
+                }
+                $(`#degree-${i + 1}`).val(oldDetails[key][0][i].degree);
+                $(`#school-${i + 1}`).val(oldDetails[key][0][i].school);
+                $(`#startDate-${i + 1}`).val(oldDetails[key][0][i].startDate);
+                $(`#passoutYear-${i + 1}`).val(
+                  oldDetails[key][0][i].passoutYear
+                );
+                $(`#percentage-${i + 1}`).val(oldDetails[key][0][i].percentage);
+                $(`#backlog-${i + 1}`).val(oldDetails[key][0][i].backlog);
+              }
+            }
+          }
+
+          btnSubmitForm.on("click", function (e) {
+            e.preventDefault();
+
+            const data = buildJSONFormData(form);
+
+            let personEducationData = [];
+            let educationData = [];
+
+            for (let i = 1; i <= ed_row; i++) {
+              let rawData = {
+                degree: $(`#degree-${i}`).val(),
+                school: $(`#school-${i}`).val(),
+                startDate: $(`#startDate-${i}`).val(),
+                passoutYear: $(`#passoutYear-${i}`).val(),
+                percentage: $(`#percentage-${i}`).val(),
+                backlog: $(`#backlog-${i}`).val(),
+              };
+
+              if (rawData.degree != "") {
+                personEducationData.push(rawData);
+              }
+            }
+
+            educationData.push(personEducationData);
+            data.educationData = educationData;
+            data.studentID = updateStudentID;
+
+            formData.splice(
+              formData.findIndex((s) => s.studentID === updateStudentID),
+              1,
+              data
+            );
+
+            createStudent(formData);
+          });
+        };
+
+        // View All
+        const viewAllStudents = () => {
+          addRowtoDisplay(
+            JSON.parse(localStorage.getItem("formData")) === null
+              ? []
+              : JSON.parse(localStorage.getItem("formData"))
+          );
+          console.log(formData);
+        };
+        viewAllStudents();
+
+        // Delete All students
+        const deleteAllStudents = () => {
+          localStorage.clear();
+          location.reload();
+        };
+
+        $(".btn--delete_all").click(function () {
+          deleteAllStudents();
+        });
+      });
+    </script>
+  </body>
+</html>
