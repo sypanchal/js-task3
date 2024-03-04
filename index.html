@@ -253,14 +253,10 @@
     </div>
 
     <!-- Data Table -->
-    <table
-      id="myTable"
-      class="display"
-      data-order='[[ 1, "asc" ]]'
-      data-page-length="10"
-    >
+    <table id="myTable1">
       <thead>
         <tr>
+          <th></th>
           <th>First Name</th>
           <th>Last Name</th>
           <th>Date of Birth</th>
@@ -270,7 +266,21 @@
           <th>Actions</th>
         </tr>
       </thead>
-      <tbody class="table-rows"></tbody>
+      <tbody class="main-table"></tbody>
+    </table>
+
+    <table id="myTable2" class="hidden">
+      <thead>
+        <tr>
+          <th>Degree</th>
+          <th>School</th>
+          <th>Start Date</th>
+          <th>Passout Year</th>
+          <th>Percentage</th>
+          <th>Backlog</th>
+        </tr>
+      </thead>
+      <tbody class="nested-table"></tbody>
     </table>
 
     <script>
@@ -456,7 +466,7 @@
           const html = `
             <tr>
                 <td>
-                    <input type="text" id="degree-${count}" name="degree-${count}"  required/>
+                    <input type="text" id="degree-${count}" name="degree-${count}" required/>
                 </td>
                 <td>
                     <input type="text" id="school-${count}" name="school-${count}" required />
@@ -547,9 +557,24 @@
 
         // Append new row to the display student table
         let displayRowID = 0;
-        const addRowtoDisplay = (formData) => {
-          formData.forEach((item) => {
+        const addRowtoDisplay = (data) => {
+          data.forEach((item) => {
             let tr = $("<tr></tr>");
+
+            const tdForExpand = $("<td></td>").addClass("expand");
+
+            tdForExpand.html(
+              `
+                <div class="icon expand-icon">
+                  <iconify-icon icon="material-symbols:arrow-right"></iconify-icon>
+                </div>
+
+                <div class="icon shrink-icon hidden">
+                  <iconify-icon icon="mdi:arrow-down-drop"></iconify-icon>
+                </div>
+              `
+            );
+            tr.append(tdForExpand);
 
             Object.keys(item).forEach((key) => {
               if (key === "dob") {
@@ -580,7 +605,7 @@
 
             tr.append(tdForActions);
             tr.attr("id", displayRowID);
-            $(".table-rows").append(tr);
+            $(".main-table").append(tr);
 
             displayRowID++;
 
@@ -589,12 +614,59 @@
             });
 
             $(".delete-icon").click(function () {
-              deleteStudentDetail(this);
+              if (!$(this).hasClass("deleted")) {
+                $(this).addClass("deleted");
+                deleteStudentDetail(this);
+              }
             });
 
-            // Initializing Data Table
-            $("#myTable").DataTable({
-              searching: false,
+            $(".expand-icon").on("click", function () {
+              if (!$(this).hasClass("expanded")) {
+                $(this).addClass("expanded");
+                $(this).addClass("hidden");
+                $(this).next().removeClass("hidden");
+
+                const row = $(this).closest("tr");
+                const rowID = +row.attr("id");
+
+                const edu_data = formData[rowID]["educationData"][0];
+
+                const trNested = $("<tr></tr>");
+                const tdNested = $("<td></td>").attr("colspan", 8);
+                const nested_table = $("#myTable2").clone();
+                const tbody = nested_table.find("tbody");
+
+                tbody.empty();
+
+                edu_data.forEach((education) => {
+                  const tr = $("<tr></tr>");
+
+                  // Populate each row with education data
+                  tr.append(`<td>${education.degree}</td>`);
+                  tr.append(`<td>${education.school}</td>`);
+                  tr.append(`<td>${gradString(education.startDate)}</td>`);
+                  tr.append(`<td>${gradString(education.passoutYear)}</td>`);
+                  tr.append(`<td>${education.percentage}%</td>`);
+                  tr.append(`<td>${education.backlog}</td>`);
+
+                  tbody.append(tr);
+                });
+
+                nested_table.removeClass("hidden");
+
+                tdNested.append(nested_table);
+                trNested.append(tdNested);
+                row.after(trNested);
+
+                $(this).closest("tr").next().show();
+                // addEducationsNestedTable(row, rowID);
+              }
+            });
+
+            $(".shrink-icon").on("click", function () {
+              $(this).addClass("hidden");
+              $(this).prev().removeClass("hidden expanded");
+              $(this).closest("tr").next().hide();
             });
           });
         };
@@ -726,11 +798,9 @@
 
         // View All
         const viewAllStudents = () => {
-          addRowtoDisplay(
-            JSON.parse(localStorage.getItem("formData")) === null
-              ? []
-              : JSON.parse(localStorage.getItem("formData"))
-          );
+          formData.forEach((data) => {
+            addRowtoDisplay([data]);
+          });
           console.log(formData);
         };
         viewAllStudents();
@@ -743,6 +813,11 @@
 
         $(".btn--delete_all").click(function () {
           deleteAllStudents();
+        });
+
+        // Initializing Data Table
+        $("#myTable1").DataTable({
+          searching: false,
         });
       });
     </script>
